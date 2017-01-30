@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <h1>{{ title }}</h1>
+
+      <h3>This is a two way data binding example:</h3>
+      <p>parentInput value: {{ parentInput }}</p>
+
+      <h3>This is a two-way data binding example:</h3>
+      <label for="parentInput">parentInput value</label>
+      <input [(ngModel)]="parentInput" type="text" id="parentInput" class="form-control"/>
+
+      <h3>This is a property data binding example:</h3>
+      <p [innerText]="pInnerText"></p>
+
+      <h3>This is an event data binding example:</h3>
+      <ul>
+        <li *ngFor="let item of dummyList">
+          <a (click)="selectItem(item)">{{ item.title }}</a>
+        </li>
+      </ul>
+
+      <ng-container *ngIf="selectedItem">
+        <p>You've selected item: {{ selectedItem.title }}</p>
+      </ng-container>
+
+      <button (click)="selectItem()" class="btn btn-info">Reset selection</button>
+
+      <br>
+      <br>
+
+      <h3>This is an example of applying child component method from parent component:</h3>
+      <button (click)="saveChildInput()" class="btn btn-info">Change child input value</button>
+
+      <h3>This is a message received from child component:</h3>
+      <div *ngIf="receivedMessage">{{ receivedMessage }}</div>
+      <div *ngIf="!receivedMessage">There is no message received yet</div>
+    </div>
+
+    <div class="col-sm-6">
+      <a2anais-child [inputFromParent]="parentInput"
+                     [selectedItem]="selectedItem"
+                     (eventEmitted)="handleChildEvent($event)">
+      </a2anais-child>
+    </div>
+  </div>
+</div>
