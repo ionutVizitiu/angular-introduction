@@ -15,9 +15,10 @@
       "main": "main.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.json",
-      "prefix": "app",
+      "prefix": "a2anais",
       "mobile": false,
       "styles": [
+        "../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss",
         "styles.css"
       ],
       "scripts": [],
@@ -39,7 +40,7 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "scss",
     "prefixInterfaces": false,
     "inline": {
       "style": false,
