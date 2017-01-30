@@ -38,10 +38,10 @@
     </div>
 
     <div class="col-sm-6">
-      <a2anais-dashboard [inputFromParent]="parentInput"
-                         [selectedItem]="selectedItem"
-                         (eventEmitted)="handleChildEvent($event)">
-      </a2anais-dashboard>
+      <a2anais-child [inputFromParent]="parentInput"
+                     [selectedItem]="selectedItem"
+                     (eventEmitted)="handleChildEvent($event)">
+      </a2anais-child>
     </div>
   </div>
 </div>

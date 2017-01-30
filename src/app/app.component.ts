@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ChildComponent } from './components/child/child.component';
 
 @Component({
   selector   : 'app-root',
@@ -18,7 +18,7 @@ export class AppComponent {
    * this is a way to take a child component instance
    * you have now access to childComponent public methods
    */
-  @ViewChild(DashboardComponent) dashboardComp: DashboardComponent;
+  @ViewChild(ChildComponent) dashboardComp: ChildComponent;
 
   /** this is used for ngFor directive */
   dummyList: any[] = [
@@ -51,6 +51,7 @@ export class AppComponent {
     this.receivedMessage = value;
   }
 
+  /** call childComponent public method */
   saveChildInput(): void {
     let value = 'value #' + this.valueCounter + ' from parent component ';
     this.dashboardComp.addValueToSavedValuesArray(value);

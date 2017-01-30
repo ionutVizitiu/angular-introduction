@@ -1,0 +1,29 @@
+<h1>This is a child component</h1>
+
+<h3>This is an example of computed value:</h3>
+<div>{{ computedValue }}</div>
+
+<h3>This is a value received from parent component (@Input):</h3>
+<div>parentInput: {{ inputFromParent }}</div>
+
+<br>
+<h3>This is an example of using #domElement:</h3>
+<label for="childInput" class="form-label">Write something and save it</label>
+<input #childInputElem class="form-control" type="text" id="childInput"/>
+<br>
+<button (click)="saveInputValue(childInputElem)" class="btn btn-info">Save input value</button>
+<br>
+<br>
+<p>Saved values:</p>
+<ul>
+  <li *ngFor="let value of savedValues">{{ value }}</li>
+</ul>
+
+
+<h3>This is an example of eventEmitter (@Output):</h3>
+<label for="parentMessage">Message for parent component</label>
+<input #anotherInputElem type="text" id="parentMessage" class="form-control"/>
+<br>
+<button (click)="notifyParentComponent(anotherInputElem.value)" class="btn btn-info">
+  Send message to parent component
+</button>
