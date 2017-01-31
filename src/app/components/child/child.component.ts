@@ -39,7 +39,7 @@ export class ChildComponent implements OnInit, OnChanges {
     this.eventEmitted.emit(value);
   }
 
-  /** see what inputElement is */
+  /** check what inputElement is */
   saveInputValue(inputElement: any = undefined): void {
     if (inputElement.value) {
       this.addValueToSavedValuesArray(inputElement.value);

@@ -1,3 +1,7 @@
-a:hover {
-  cursor: pointer;
+.parentComponent {
+  border: 1px solid green;
+}
+
+.childComponent {
+  border: 1px solid red;
 }

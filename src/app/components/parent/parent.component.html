@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-6 parentComponent">
       <h1>{{ title }}</h1>
 
       <h3>This is a two way data binding example:</h3>
@@ -37,7 +37,7 @@
       <div *ngIf="!receivedMessage">There is no message received yet</div>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-6 childComponent">
       <a2anais-child [inputFromParent]="parentInput"
                      [selectedItem]="selectedItem"
                      (eventEmitted)="handleChildEvent($event)">
