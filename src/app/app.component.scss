@@ -1,0 +1,22 @@
+a, a:link, a:hover, a:visited, a:active {
+  text-decoration: none;
+  outline: none;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.wrapper {
+  margin: 0 16px;
+}
+
+.md-sidenav {
+  min-width: 180px;
+  padding-top: 40px;
+}
