@@ -53,7 +53,7 @@ export class ParentComponent {
 
   /** call childComponent public method */
   saveChildInput(): void {
-    let value = 'value #' + this.valueCounter + ' from parent component ';
+    let value = 'value #' + this.valueCounter + ' saved from parent component ';
     this.dashboardComp.addValueToSavedValuesArray(value);
     this.valueCounter++;
   }
