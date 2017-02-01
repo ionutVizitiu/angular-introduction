@@ -8,6 +8,7 @@ import { ChildComponent } from './components/child/child.component';
 import { NoContentComponent } from './components/no-content/no-content.component';
 import { ParentComponent } from './components/parent/parent.component';
 import { A2appRoutingModule } from './app-routing.module';
+import { MaterialModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { A2appRoutingModule } from './app-routing.module';
     BrowserModule,
     FormsModule,
     HttpModule,
+    MaterialModule.forRoot(),
     A2appRoutingModule
   ],
   providers   : [],
