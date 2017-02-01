@@ -1,0 +1,14 @@
+<md-card>
+  <md-card-title>
+    {{ book.title }}
+  </md-card-title>
+
+  <md-card-content>
+    <p>Short description: {{ book.shortDescription }}</p>
+    <p>Price: {{ book.price }}</p>
+  </md-card-content>
+
+  <md-card-actions>
+    <a [routerLink]="['/books', book.id]" class="btn btn-info">Edit book</a>
+  </md-card-actions>
+</md-card>

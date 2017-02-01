@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6">
+      <h3>Example of Observable.subscribe():</h3>
+      <md-list>
+        <md-list-item *ngFor="let book of booksList" (click)="selectBook(book)">{{ book.title }}</md-list-item>
+      </md-list>
+
+      <h3>Example of async pipe:</h3>
+      <md-list>
+        <md-list-item *ngFor="let book of asyncBooksList | async" (click)="selectBook(book)">
+          {{ book.title }}
+        </md-list-item>
+      </md-list>
+    </div>
+
+    <div class="col-sm-6">
+      <a2anais-book-preview *ngIf="selectedBook" [book]="selectedBook"></a2anais-book-preview>
+    </div>
+  </div>
+</div>

@@ -1,2 +1,22 @@
-<h3>All components are loaded below</h3>
-<router-outlet></router-outlet>
+<md-sidenav-container fullscreen>
+
+  <md-sidenav mode="side" opened="true" #sidenav class="md-sidenav">
+    <ul>
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/books">Books</a></li>
+    </ul>
+  </md-sidenav>
+
+  <md-toolbar color="primary">
+    <button md-icon-button (click)="sidenav.toggle()">
+      <md-icon>menu</md-icon>
+    </button>
+  </md-toolbar>
+
+  <div class="container-fluid">
+    <router-outlet></router-outlet>
+  </div>
+
+  <alert type="success">hello</alert>
+
+</md-sidenav-container>

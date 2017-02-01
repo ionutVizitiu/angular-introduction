@@ -1,0 +1,30 @@
+<h1>{{ book.title }}</h1>
+
+<form (onSubmit)="updateBook()">
+  <div class="form-group">
+    <label for="price" class="control-label">Price</label>
+    <input [(ngModel)]="bookClone.price" type="number" id="price" class="form-control" name="price"/>
+  </div>
+
+  <div class="form-group">
+    <label for="shortDescription" class="control-label">Short description</label>
+    <textarea [(ngModel)]="bookClone.shortDescription"
+              id="shortDescription"
+              class="form-control"
+              name="shortDescription"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="description" class="control-label">Description</label>
+    <textarea [(ngModel)]="bookClone.description"
+              id="description"
+              class="form-control"
+              name="description"></textarea>
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-success">Save book changes</button>
+  </div>
+</form>
+
+<a routerLink="/books" class="btn btn-info">Go back to list</a>

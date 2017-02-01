@@ -1,0 +1,251 @@
+- ng g module books
+- ng g component books/components/books-list
+
+---------------------------------------------------
+- create books-routing.module.ts
+- write:
+
+  import { Routes, RouterModule } from '@angular/router';
+  import { NgModule } from '@angular/core';
+
+  import { BooksListComponent } from './components/books-list/books-list.component';
+
+  const booksRoutes: Routes = [
+    {
+      path     : '',
+      component: BooksListComponent,
+    }
+  ];
+
+  @NgModule({
+    imports: [RouterModule.forChild(booksRoutes)],
+    exports: [RouterModule]
+  })
+  export class BooksRoutingModule {
+  }
+
+---------------------------------------------------
+- add to books.module.ts imports:
+BooksRoutingModule
+
+---------------------------------------------------
+- add to app-routing.module.ts:
+  {
+    path        : 'books',
+    loadChildren: 'app/books/books.module#BooksModule',
+    data        : {preload: true}
+  }
+
+@NgModule({
+  imports  : [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],
+  exports  : [RouterModule],
+  providers: []
+})
+
+- change redirectTo: 'dashboard' to redirectTo: '/dashboard'
+
+CHECK NEW ROUTE
+---------------------------------------------------
+check app/books link
+
+---------------------------------------------------
+- npm install --save @angular/material
+- add MaterialModule.forRoot() to app.module.ts and books.module.ts
+- add <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> in index.html
+
+APP COMPONENT HTML
+---------------------------------------------------
+- add to app.component.html:
+<md-sidenav-container fullscreen>
+
+  <md-sidenav mode="side" opened="true" #sidenav class="md-sidenav">
+    <ul>
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/books">Books</a></li>
+    </ul>
+  </md-sidenav>
+
+  <md-toolbar color="primary">
+    <button md-icon-button (click)="sidenav.toggle()">
+      <md-icon>menu</md-icon>
+    </button>
+  </md-toolbar>
+
+  <div class="wrapper">
+    <router-outlet></router-outlet>
+  </div>
+
+</md-sidenav-container>
+
+NG2-BOOTSTRAP
+---------------------------------------------------
+- npm install ng2-bootstrap --save
+- src/app/app.module.ts - import { AlertModule } from 'ng2-bootstrap';
+- imports - AlertModule.forRoot()
+- app.component.html - <alert type="success">hello</alert>
+
+BOOKS PREVIEW
+---------------------------------------------------
+- ng g component books/components/books-preview
+
+BOOKS LIST COMPONENT
+---------------------------------------------------
+- for books-list.component.ts
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription, Observable } from 'rxjs';
+import { BooksService } from '../../services/books.service';
+import { Book } from '../../models/book';
+
+@Component({
+  selector   : 'a2anais-books-list',
+  templateUrl: './books-list.component.html',
+  styleUrls  : ['./books-list.component.scss']
+})
+export class BooksListComponent implements OnInit, OnDestroy {
+  listSubs: Subscription;
+  booksList: Book[];
+  asyncBooksList: Observable<any>;
+  selectedBook: Book;
+
+  constructor(private service: BooksService) {
+  }
+
+  ngOnInit() {
+    this.getList();
+    this.getAsyncList();
+  }
+
+  /** EXAMPLE 1
+   * subscribe to Observable and get the list of items here
+   */
+  getList(): void {
+    this.listSubs = this.service.getList().subscribe(
+      (items: Book[]) => this.booksList = items,
+      error => console.log('Something went wrong')
+    );
+  }
+
+  /**  EXAMPLE 2
+   * return Observable and use async pipe in the view
+   */
+  getAsyncList(): void {
+    this.asyncBooksList = this.service.getList();
+  }
+
+  selectBook(book: Book = undefined): void {
+    this.selectedBook = book;
+  }
+
+  /**
+   * destroy Subscription
+   */
+  ngOnDestroy(): void {
+    if (this.listSubs) {
+      this.listSubs.unsubscribe();
+    }
+  }
+}
+
+BOOKS LIST HTML
+---------------------------------------------------
+- books-list.component.html
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6">
+      <h3>Example of Observable.subscribe():</h3>
+      <md-list>
+        <md-list-item *ngFor="let book of booksList" (click)="selectBook(book)">{{ book.title }}</md-list-item>
+      </md-list>
+
+      <h3>Example of async pipe:</h3>
+      <md-list>
+        <md-list-item *ngFor="let book of asyncBooksList | async" (click)="selectBook(book)">
+          {{ book.title }}
+        </md-list-item>
+      </md-list>
+    </div>
+
+    <div class="col-sm-6">
+      <a2anais-book-preview *ngIf="selectedBook" [book]="selectedBook"></a2anais-book-preview>
+    </div>
+  </div>
+</div>
+
+---------------------------------------------------
+- ng g interface books/models/book
+export interface Book {
+  id: number,
+  title: string,
+  price: number,
+  shortDescription: string,
+  description: string
+}
+
+---------------------------------------------------
+- ng g service books/services/books
+- import BooksService in books.module.ts
+import { Injectable } from '@angular/core';
+import { Book } from '../models/book';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class BooksService {
+  constructor() {
+  }
+
+  booksList: Book[] = [
+    {
+      id              : 1,
+      title           : 'Book 1',
+      price           : 10,
+      shortDescription: 'This is a short description for Book 1',
+      description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
+    },
+    {
+      id              : 2,
+      title           : 'Book 2',
+      price           : 15,
+      shortDescription: 'This is a short description for Book 2',
+      description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
+    },
+    {
+      id              : 3,
+      title           : 'Book 3',
+      price           : 120,
+      shortDescription: 'This is a short description for Book 3',
+      description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
+    },
+    {
+      id              : 4,
+      title           : 'Book 4',
+      price           : 10,
+      shortDescription: 'This is a short description for Book 4',
+      description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
+    },
+    {
+      id              : 5,
+      title           : 'Book 5',
+      price           : 5,
+      shortDescription: 'This is a short description for Book 5',
+      description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
+    }
+  ];
+
+  getList(): Observable<any> {
+    return Observable.of(this.booksList);
+  }
+
+  getItem(id: number): Observable<any> {
+    return Observable.of(this.booksList.filter(book => book.id === id));
+  }
+}
+
+---------------------------------------------------
+- cand importam modul cu lazyLoading, fara sa il importam in AppModule, el este de sine statator si face bucataria interna singur
+- daca importam un modul in AppModule, modulul importat trebuie sa aiba elementele pe care vrea sa le expuna altor module declarate explicit in "exports"
+
+exemple:
+1. BooksModule importat prin lazyLoading in AppRoutingModule
+  - incearca sa folosesti <a2anais-books-list></a2anais-books-list> in app.component.html
+2. import BooksModule (fara a avea ceva in "exports") in AppModule
+  - adauga BooksComponent in BooksModule "exports"

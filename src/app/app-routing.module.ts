@@ -1,17 +1,22 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { ParentComponent } from "./components/parent/parent.component";
 import { NoContentComponent } from './components/no-content/no-content.component';
 
 const routes: Routes = [
   {
     path      : '',
-    redirectTo: 'dashboard',
+    redirectTo: '/dashboard',
     pathMatch : 'full'
   },
   {
     path     : 'dashboard',
     component: ParentComponent
+  },
+  {
+    path        : 'books',
+    loadChildren: 'app/books/books.module#BooksModule',
+    data        : {preload: true}
   },
   {
     path     : '**',
@@ -20,7 +25,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports  : [RouterModule.forRoot(routes)],
+  imports  : [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],
   exports  : [RouterModule],
   providers: []
 })
