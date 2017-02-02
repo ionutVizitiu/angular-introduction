@@ -3,12 +3,15 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { MaterialModule } from '@angular/material';
+import { A2appRoutingModule } from './app-routing.module';
+
+import { AlertModule } from 'ng2-bootstrap';
+
 import { AppComponent } from './app.component';
 import { ChildComponent } from './components/child/child.component';
 import { NoContentComponent } from './components/no-content/no-content.component';
 import { ParentComponent } from './components/parent/parent.component';
-import { A2appRoutingModule } from './app-routing.module';
-import { MaterialModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,7 @@ import { MaterialModule } from '@angular/material';
     BrowserModule,
     FormsModule,
     HttpModule,
+    AlertModule.forRoot(),
     MaterialModule.forRoot(),
     A2appRoutingModule
   ],
