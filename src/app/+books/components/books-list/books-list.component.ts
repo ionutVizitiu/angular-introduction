@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BooksService } from '../../services/books.service';
 import { Subscription, Observable } from 'rxjs';
+import { BooksService } from '../../services/books.service';
 import { Book } from '../../models/book';
 
 @Component({
@@ -18,22 +18,32 @@ export class BooksListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getList();
+    this.getAsyncList();
   }
 
+  /** EXAMPLE 1
+   * subscribe to Observable and get the list of items here
+   */
   getList(): void {
     this.listSubs = this.service.getListAsObservable().subscribe(
       (items: Book[]) => {
         this.booksList = items;
         console.log('books list', this.booksList);
       },
-      error => error
+      error => console.log('Something went wrong')
     );
   }
 
+  /**  EXAMPLE 2
+   * return Observable and use async pipe in the view
+   */
   getAsyncList(): void {
     this.asyncBooksList = this.service.getListAsObservable();
   }
 
+  /**
+   * destroy Subscription
+   */
   ngOnDestroy(): void {
     if (this.listSubs) {
       this.listSubs.unsubscribe();
