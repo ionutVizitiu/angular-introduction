@@ -11,7 +11,7 @@ import { Book } from '../../models/book';
 export class BooksListComponent implements OnInit, OnDestroy {
   listSubs: Subscription;
   booksList: Book[];
-  asyncBooksList: Observable<any>;
+  asyncBooksList: Observable<Book[]>;
 
   constructor(private service: BooksService) {
   }

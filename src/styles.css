@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+a, a:link, a:hover, a:visited, a:active {
+    text-decoration: none;
+    outline: none;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 20px;
+}

@@ -3,15 +3,14 @@
     <div class="col-sm-6">
       <h3>Example of Observable.subscribe():</h3>
       <md-list>
-        <md-list-item *ngFor="let book of booksList"
-                      (click)="selectBook(book)">
-          {{ book.title }}
+        <md-list-item *ngFor="let book of booksList">
+          <a>{{ book.title }}</a>
         </md-list-item>
       </md-list>
 
       <h3>Example of async pipe:</h3>
       <md-list>
-        <md-list-item *ngFor="let book of asyncBooksList | async" (click)="selectBook(book)">
+        <md-list-item *ngFor="let book of asyncBooksList | async">
           {{ book.title }}
         </md-list-item>
       </md-list>
