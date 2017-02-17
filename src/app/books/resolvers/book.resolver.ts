@@ -10,6 +10,6 @@ export class BookResolver implements Resolve<any> {
   }
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
-    return this.service.getItem(+route.params['id']);
+    return this.service.getItemAsObservable(+route.params['id']);
   }
 }

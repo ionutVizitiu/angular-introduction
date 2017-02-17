@@ -7,7 +7,6 @@ import { Component, OnInit, OnChanges, Input, SimpleChanges, Output, EventEmitte
 })
 export class ChildComponent implements OnInit, OnChanges {
   computedValue: string;
-  propertyBinding: string = 'write something..';
 
   savedValues: string[] = [];
 
@@ -40,18 +39,13 @@ export class ChildComponent implements OnInit, OnChanges {
   }
 
   /** check what inputElement is */
-  saveInputValue(inputElement: any = undefined): void {
-    if (inputElement.value) {
-      this.addValueToSavedValuesArray(inputElement.value);
-      this.resetInputValue(inputElement);
+  saveInputValue(value: any = undefined): void {
+    if (value) {
+      this.addValueToSavedValuesArray(value);
     }
   }
 
   addValueToSavedValuesArray(value: string): void {
     this.savedValues.push(value);
-  }
-
-  private resetInputValue(inputElement: any): void {
-    inputElement.value = '';
   }
 }

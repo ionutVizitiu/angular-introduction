@@ -11,7 +11,7 @@
 <label for="childInput" class="form-label">Write something and save it</label>
 <input #childInputElem class="form-control" type="text" id="childInput"/>
 <br>
-<button (click)="saveInputValue(childInputElem)" class="btn btn-info">Save input value</button>
+<button (click)="saveInputValue(childInputElem.value); childInputElem.value=''" class="btn btn-info">Save input value</button>
 <br>
 <br>
 <p>Saved values:</p>
@@ -24,6 +24,6 @@
 <label for="parentMessage">Message for parent component</label>
 <input #anotherInputElem type="text" id="parentMessage" class="form-control"/>
 <br>
-<button (click)="notifyParentComponent(anotherInputElem.value)" class="btn btn-info">
+<button (click)="notifyParentComponent(anotherInputElem.value); anotherInputElem.value =''" class="btn btn-info">
   Send message to parent component
 </button>

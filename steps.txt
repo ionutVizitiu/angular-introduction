@@ -1,3 +1,13 @@
+30.01.2017=======================================
+- short introduction: project structure, module, components, directives, pipes, services
+- install angular cli and serve the application
+- explain and give examples of data binding
+- create two components. parent and child
+- explain and give examples of components communication with @Input and @Output
+
+31.01.2017========================================
+Routing and lazy loading
+
 - ng g module books
 - ng g component books/components/books-list
 
@@ -32,8 +42,7 @@ BooksRoutingModule
 - add to app-routing.module.ts:
   {
     path        : 'books',
-    loadChildren: 'app/books/books.module#BooksModule',
-    data        : {preload: true}
+    loadChildren: 'app/books/books.module#BooksModule'
   }
 
 @NgModule({
@@ -41,8 +50,6 @@ BooksRoutingModule
   exports  : [RouterModule],
   providers: []
 })
-
-- change redirectTo: 'dashboard' to redirectTo: '/dashboard'
 
 CHECK NEW ROUTE
 ---------------------------------------------------
@@ -77,12 +84,40 @@ APP COMPONENT HTML
 
 </md-sidenav-container>
 
-NG2-BOOTSTRAP
+
+01.02.2017=========================================
+Webpack and modules
+
+WEBPACK
+---------------------------------------------------
+- how does it work with Angular (https://angular.io/docs/ts/latest/guide/webpack.html)
+
+MODULE
+---------------------------------------------------
+- explain grouping in a Module
+- explain declarations, imports, exports, providers
+- explain difference between imported modules and lazy loaded
+    - lazy loaded module has it's own scope. It doesn't have "exports"
+    - an imported Module has to have "exports" - components, directives, pipes (public)
+
+example:
+1. BooksModule is lazy loaded in AppRoutingModule
+  - try using <a2anais-books-list></a2anais-books-list> in app.component.html
+2. import BooksModule (without anything in "exports") in AppModule
+3,. add BooksComponent in BooksModule "exports"
+
+- case study about structuring modules - todd: pizza app (https://github.com/toddmotto/angular-pizza-creator)
+
+NG2-BOOTSTRAP (use only what module you need from a big module wrapper)
 ---------------------------------------------------
 - npm install ng2-bootstrap --save
 - src/app/app.module.ts - import { AlertModule } from 'ng2-bootstrap';
 - imports - AlertModule.forRoot()
 - app.component.html - <alert type="success">hello</alert>
+
+
+2.02.2017=========================================
+Services, Resolvers, Directives
 
 BOOKS PREVIEW
 ---------------------------------------------------
@@ -91,6 +126,7 @@ BOOKS PREVIEW
 BOOKS LIST COMPONENT
 ---------------------------------------------------
 - for books-list.component.ts
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 import { BooksService } from '../../services/books.service';
@@ -119,7 +155,7 @@ export class BooksListComponent implements OnInit, OnDestroy {
    * subscribe to Observable and get the list of items here
    */
   getList(): void {
-    this.listSubs = this.service.getList().subscribe(
+    this.listSubs = this.service.getListAsObservable().subscribe(
       (items: Book[]) => this.booksList = items,
       error => console.log('Something went wrong')
     );
@@ -129,7 +165,7 @@ export class BooksListComponent implements OnInit, OnDestroy {
    * return Observable and use async pipe in the view
    */
   getAsyncList(): void {
-    this.asyncBooksList = this.service.getList();
+    this.asyncBooksList = this.service.getListAsObservable();
   }
 
   selectBook(book: Book = undefined): void {
@@ -149,6 +185,7 @@ export class BooksListComponent implements OnInit, OnDestroy {
 BOOKS LIST HTML
 ---------------------------------------------------
 - books-list.component.html
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-6">
@@ -184,6 +221,7 @@ export interface Book {
 ---------------------------------------------------
 - ng g service books/services/books
 - import BooksService in books.module.ts
+
 import { Injectable } from '@angular/core';
 import { Book } from '../models/book';
 import { Observable } from 'rxjs';
@@ -194,58 +232,258 @@ export class BooksService {
   }
 
   booksList: Book[] = [
-    {
-      id              : 1,
-      title           : 'Book 1',
-      price           : 10,
-      shortDescription: 'This is a short description for Book 1',
-      description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
-    },
-    {
-      id              : 2,
-      title           : 'Book 2',
-      price           : 15,
-      shortDescription: 'This is a short description for Book 2',
-      description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
-    },
-    {
-      id              : 3,
-      title           : 'Book 3',
-      price           : 120,
-      shortDescription: 'This is a short description for Book 3',
-      description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
-    },
-    {
-      id              : 4,
-      title           : 'Book 4',
-      price           : 10,
-      shortDescription: 'This is a short description for Book 4',
-      description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
-    },
-    {
-      id              : 5,
-      title           : 'Book 5',
-      price           : 5,
-      shortDescription: 'This is a short description for Book 5',
-      description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
-    }
-  ];
+      {
+        id              : 1,
+        title           : 'A Field Guide to American Houses',
+        price           : 10,
+        shortDescription: 'This is a short description for Book 1',
+        description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
+      },
+      {
+        id              : 2,
+        title           : 'The LEGO Architect',
+        price           : 15,
+        shortDescription: 'This is a short description for Book 2',
+        description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
+      },
+      {
+        id              : 3,
+        title           : 'Building Old Cambridge: Architecture',
+        price           : 120,
+        shortDescription: 'This is a short description for Book 3',
+        description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
+      },
+      {
+        id              : 4,
+        title           : 'Modern Architecture Since 1900',
+        price           : 10,
+        shortDescription: 'This is a short description for Book 4',
+        description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
+      },
+      {
+        id              : 5,
+        title           : 'The Mosques of Egypt',
+        price           : 5,
+        shortDescription: 'This is a short description for Book 5',
+        description     : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla congue augue eu cursus. Nunc massa purus, sagittis a vestibulum in, semper eu dolor. Donec in laoreet arcu. Sed tempor leo et augue hendrerit, id sagittis orci mollis. Fusce auctor iaculis est, ut elementum libero consectetur in. Aliquam maximus est vitae elementum blandit. Vivamus ultrices varius consequat.'
+      }
+    ];
 
-  getList(): Observable<any> {
-    return Observable.of(this.booksList);
+    getListAsObservable(): Observable<Book[]> {
+      return Observable.of(this.booksList as Book[]);
+    }
+
+    getItemAsObservable(id: number): Observable<Book> {
+      return Observable.of(this.booksList.find(book => book.id === id) as Book);
+    }
+
+    httpObservable(data: any): Observable<Response> {
+      return this._http.get('url/path', data);
+    }
+
+    httpPromise(data): Promise<Book> {
+      return this._http.get('url/path', data).toPromise();
+      // .then()
+      // .catch();
+    }
+}
+
+
+3.02.2017==========================================
+- ng g directive books/directives/highlight
+
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+
+@Directive({
+  selector: '[a2anaisHighlight]'
+})
+export class HighlightDirective {
+  @Input() myColor: string;
+
+  constructor(private el: ElementRef) {
   }
 
-  getItem(id: number): Observable<any> {
-    return Observable.of(this.booksList.filter(book => book.id === id));
+  @HostListener('mouseenter') onMouseEnter() {
+    this.highlight(this.myColor || 'yellow');
+  }
+
+  @HostListener('mouseleave') onMouseLeave() {
+    this.highlight(null);
+  }
+
+  private highlight(color: string) {
+    this.el.nativeElement.style.backgroundColor = color;
   }
 }
 
----------------------------------------------------
-- cand importam modul cu lazyLoading, fara sa il importam in AppModule, el este de sine statator si face bucataria interna singur
-- daca importam un modul in AppModule, modulul importat trebuie sa aiba elementele pe care vrea sa le expuna altor module declarate explicit in "exports"
+- add in books-list.component.ts
 
-exemple:
-1. BooksModule importat prin lazyLoading in AppRoutingModule
-  - incearca sa folosesti <a2anais-books-list></a2anais-books-list> in app.component.html
-2. import BooksModule (fara a avea ceva in "exports") in AppModule
-  - adauga BooksComponent in BooksModule "exports"
+  myColor: string = 'yellow';
+
+
+- add in books-list.component.html
+
+    <md-list-item *ngFor="let book of booksList"
+                  a2anaisHighlight
+                  [myColor]="myColor">
+      {{ book.title }}
+    </md-list-item>
+
+AUTOCOMPLETE
+- add in books-list.component.ts
+
+private searchTerms = new Subject<string>();
+import { Subject }           from 'rxjs/Subject';
+
+// Push a search term into the observable stream.
+  search(term: string): void {
+    this.searchTerms.next(term);
+  }
+
+  debounceInput(): void {
+    this.asyncBooksList = this.searchTerms
+        .debounceTime(300)        // wait 300ms after each keystroke before considering the term
+        .distinctUntilChanged()   // ignore if next search term is same as previous
+        .switchMap(term => term   // switch to new observable each time the term changes
+          // return the http search observable
+          ? this.service.search(term)
+          // or the observable of empty books if there was no search term
+          : Observable.of<Book[]>([]))
+        .catch(error => {
+          // TODO: add real error handling
+          console.log(error);
+          return Observable.of<Book[]>([]);
+        });
+    }
+
+<h3>Search for a book title:</h3>
+<input type="text" #searchInput (keyup)="search(searchInput.value)"/>
+
+- add in books.service.ts
+
+  search(term: string): Observable<Book[]> {
+      let regex = new RegExp(`${term}`, 'gi');
+      return Observable.of(this.booksList.filter(book => book.title.match(regex)) as Book[]);
+    }
+
+- show example from upcall
+
+---------------------------------------------------
+- ng g component books/components/book-preview
+- add @Input() book: Book; in book-preview.component.ts
+- add in book-preview.component.html:
+
+<md-card>
+  <md-card-title>
+    {{ book.title }}
+  </md-card-title>
+
+  <md-card-content>
+    <p>Short description: {{ book.shortDescription }}</p>
+    <p>Price: {{ book.price }}</p>
+  </md-card-content>
+
+  <md-card-actions>
+    <a [routerLink]="['/books', book.id]" class="btn btn-info">Edit book</a>
+  </md-card-actions>
+</md-card>
+
+---------------------------------------------------
+- ng g component books/components/book-show
+
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Book } from '../../models/book';
+import { ActivatedRoute, Router } from '@angular/router';
+
+@Component({
+  selector   : 'a2anais-book-show',
+  templateUrl: './book-show.component.html',
+  styleUrls  : ['./book-show.component.scss']
+})
+export class BookShowComponent implements OnInit, OnDestroy {
+  book: Book;
+  bookClone: Book;
+
+  constructor(private route: ActivatedRoute, private router: Router) {
+  }
+
+  ngOnInit() {
+    this.book = this.route.snapshot.data['book'];
+    console.log('initial book', this.book);
+    this.cloneBook();
+  }
+
+  cloneBook(): void {
+    this.bookClone = Object.assign({}, this.book);
+  }
+
+  updateBook(): void {
+    this.book = this.bookClone;
+    console.log('updated book', this.book);
+    this.router.navigateByUrl('/books');
+  }
+
+  ngOnDestroy(): void {
+    delete this.bookClone;
+    console.log('bookClone deleted');
+  }
+}
+
+<h1>{{ book.title }}</h1>
+
+<div class="form-group">
+  <label for="price" class="control-label">Price</label>
+  <input [(ngModel)]="bookClone.price" type="number" id="price" class="form-control" name="price"/>
+</div>
+
+<div class="form-group">
+  <label for="shortDescription" class="control-label">Short description</label>
+  <textarea [(ngModel)]="bookClone.shortDescription"
+            id="shortDescription"
+            class="form-control"
+            name="shortDescription"></textarea>
+</div>
+
+<div class="form-group">
+  <label for="description" class="control-label">Description</label>
+  <textarea [(ngModel)]="bookClone.description"
+            id="description"
+            rows="7"
+            class="form-control"
+            name="description"></textarea>
+</div>
+
+<div class="form-group">
+  <button type="submit" class="btn btn-success" (click)="updateBook()">Save book changes</button>
+</div>
+
+<a routerLink="/books" class="btn btn-info">Go back to list</a>
+
+---------------------------------------------------
+- create books/resolvers/book.resolver.ts
+
+import { Injectable } from '@angular/core';
+import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
+import { BooksService } from '../services/books.service';
+
+@Injectable()
+export class BookResolver implements Resolve<any> {
+  constructor(private service: BooksService) {
+
+  }
+
+  resolve(route: ActivatedRouteSnapshot): Observable<any> {
+    return this.service.getItemAsObservable(+route.params['id']);
+  }
+}
+
+- books-routing.module.ts:
+
+{
+    path     : ':id',
+    component: BookShowComponent,
+    resolve  : {
+      book: BookResolver
+    }
+  }

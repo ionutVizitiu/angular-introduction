@@ -11,6 +11,7 @@ import { BookResolver } from './resolvers/book.resolver';
 import { BooksListComponent } from './components/books-list/books-list.component';
 import { BookPreviewComponent } from './components/book-preview/book-preview.component';
 import { BookShowComponent } from './components/book-show/book-show.component';
+import { HighlightDirective } from './directives/highlight.directive';
 
 @NgModule({
   imports     : [
@@ -19,7 +20,7 @@ import { BookShowComponent } from './components/book-show/book-show.component';
     MaterialModule.forRoot(),
     BooksRoutingModule
   ],
-  declarations: [BooksListComponent, BookPreviewComponent, BookShowComponent],
+  declarations: [BooksListComponent, BookPreviewComponent, BookShowComponent, HighlightDirective, HighlightDirective],
   providers   : [BooksService, BookResolver]
 })
 export class BooksModule {
