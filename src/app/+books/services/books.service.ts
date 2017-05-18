@@ -60,7 +60,7 @@ export class BooksService {
     return this._http.get('url/path', data);
   }
 
-  httpPromise(data): Promise<Book> {
+  httpPromise(data): Promise<Response> {
     return this._http.get('url/path', data).toPromise();
     // .then()
     // .catch();
