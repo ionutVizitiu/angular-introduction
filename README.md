@@ -6,8 +6,8 @@ It has been structured in multiple sessions, one hour each.
 The course covered:
 - Angular architecture
 - Main building blocks explained (NgModule, Component, Service, Pipe, Directive, Router)
-- Data bindings examples (can be found in ```app/components```)
-- Lazy loading modules (```app-routing.module.ts```)
+- Data bindings examples (can be found in [```app/components```](https://github.com/ionutVizitiu/angular-introduction/tree/master/src/app/components))
+- Lazy loading modules ([```app-routing.module.ts```](https://github.com/ionutVizitiu/angular-introduction/blob/master/src/app/app-routing.module.ts))
 - Typescript
 - Interfaces
 - Observables
