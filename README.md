@@ -1,6 +1,18 @@
-# A2Introduction
+# Angular Introduction course
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.26.
+This project is a result of an introduction course held for my fellow teammates.
+It has been structured in multiple sessions, one hour each.
+
+The course covered:
+- Angular architecture
+- Main building blocks explained (NgModule, Component, Service, Pipe, Directive, Router)
+- Data bindings examples (can be found in ```app/components```)
+- Lazy loading modules (```app-routing.module.ts```)
+- Typescript
+- Interfaces
+- Observables
+
+The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.26.
 
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
