@@ -11,6 +11,8 @@ The course covered:
 - Typescript
 - Interfaces
 - Observables
+- Angular Material
+- How to use third party libraries
 
 The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.26.
 
